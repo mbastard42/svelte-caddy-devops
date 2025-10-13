@@ -1,14 +1,28 @@
 dev:
-	docker compose -f compose.dev.yaml up --build
+	docker build -f frontend/Dockerfile frontend --target dev -t svelte-dev
+	docker run --rm -it \
+	-p 5173:5173 \
+	-v $$PWD/frontend:/app \
+	-v /app/node_modules \
+	svelte-dev 
 
-down:
-	docker compose down
+preview:
+	docker build -f frontend/Dockerfile frontend --target prod -t svelte-prod
+	docker run --rm -it \
+	-p 80:80 -p 443:443 \
+  	-e TZ=Europe/Paris \
+	-v caddy_data:/data \
+	-v caddy_config:/config \
+	svelte-prod 
 
-prod-up:
-	docker compose -f compose.prod.yaml up -d
+prod:
+	docker run --rm -it \
+	-p 80:80 -p 443:443 \
+  	-e TZ=Europe/Paris \
+	-v caddy_data:/data \
+	-v caddy_config:/config \
+	ghcr.io/<OWNER>/<REPO>-frontend:latest
 
-prod-pull:
-	docker compose -f compose.prod.yaml pull
-
-logs:
-	docker compose logs -f
+clean:
+	docker image rm svelte-dev 2>/dev/null || true
+	docker image rm svelte-prod 2>/dev/null || true
