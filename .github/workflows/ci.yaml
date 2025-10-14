@@ -5,6 +5,7 @@ on:
     paths:
       - 'svelte/**'
       - '.github/workflows/ci.yaml'
+      - '.github/workflows/cd.yaml'
   workflow_dispatch: {}
 
 permissions:

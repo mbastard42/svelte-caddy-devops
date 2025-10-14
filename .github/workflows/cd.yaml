@@ -9,7 +9,7 @@ permissions:
   packages: read
 
 env:
-  ENV_FILE: /opt/folio/.env.prod
+  ENV_FILE: /path/to/.env.prod
 
 jobs:
   deploy:
