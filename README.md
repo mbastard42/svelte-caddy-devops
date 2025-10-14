@@ -1,5 +1,7 @@
 # Svelte Caddy DevOps
 
+A lightweight **Svelte SPA** template featuring an automated **CI/CD pipeline** using **GitHub Actions** and **GHCR**, with a production-ready **Caddy** setup for **VPS** deployment.
+
 ## Architecture
 
 ```bash
