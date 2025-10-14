@@ -8,6 +8,9 @@ permissions:
   contents: read
   packages: read
 
+env:
+  ENV_FILE: /opt/folio/.env.prod
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,7 +24,7 @@ jobs:
           script: |
             set -euo pipefail
 
-            source /opt/folio/.env.prod
+            source "${{ env.ENV_FILE }}"
             IMAGE="ghcr.io/${OWNER}/${REPO}:main"
 
             if [ -n "${GHCR_PAT:-}" ]; then
