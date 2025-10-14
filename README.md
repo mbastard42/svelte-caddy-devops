@@ -77,6 +77,7 @@ Example content based on `.env.example`
 # GHCR
 OWNER=username
 REPO=repository
+GHCR_PAT=ghp_xxx
 
 # CADDY
 DOMAIN=your.dns.example
