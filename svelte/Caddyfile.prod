@@ -1,12 +1,12 @@
 {
-	email ${EMAIL}
+	email {$EMAIL}
 }
 
-www.${DOMAIN} {
-	redir https://${DOMAIN}{uri}
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri}
 }
 
-${DOMAIN} {
+{$DOMAIN} {
 	encode zstd gzip
 
 	root * /usr/share/caddy
