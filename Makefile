@@ -19,6 +19,12 @@ preview:
 		-e TZ=$$TZ \
 		svelte-preview 
 
+prod:
+	git checkout prod
+	git merge --ff-only main
+	git push origin prod
+	git checkout main
+
 clean:
 	docker image rm svelte-dev 2>/dev/null || true
 	docker image rm svelte-preview 2>/dev/null || true
