@@ -1,7 +1,5 @@
 # Svelte Caddy DevOps
 
-cd ..
-
 ## Architecture
 
 ```bash
@@ -31,8 +29,7 @@ Once created, go to the **Actions tab** — you should see something like:
 | `Initialize prod` - CD (Deploy to VPS) - *failed*             |   prod   |
 | `Initial commit` - CI (Build & push) - *running then success* |   main   |
 
-> Don’t worry about the failed CD workflow — it’s normal!
-> It fails because your repository isn’t yet connected to your VPS through GitHub Secrets.
+> Don’t worry about the failed CD workflow, It fails because your repository isn’t yet connected to your VPS through GitHub Secrets.
 
 ### Step 2 - Connect Your VPS via Secrets
 
