@@ -1,16 +1,16 @@
 dev:
-	docker build -f frontend/Dockerfile frontend \
+	docker build -f svelte/Dockerfile svelte \
 		--target dev \
 		-t svelte-dev
 	docker run --rm -it \
 		-p 5173:5173 \
-		-v $$PWD/frontend:/app \
+		-v $$PWD/svelte:/app \
 		-v /app/node_modules \
 		svelte-dev 
 
 preview:
 	@set -a; . .env.prod; set +a; \
-	docker build -f frontend/Dockerfile frontend \
+	docker build -f svelte/Dockerfile svelte \
 		--target prod \
 		--build-arg CADDYFILE=Caddyfile.preview \
 		-t svelte-preview
