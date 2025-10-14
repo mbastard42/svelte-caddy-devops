@@ -2,6 +2,9 @@ name: CI (build & push)
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'svelte/**'
+      - '.github/workflows/ci.yaml'
   workflow_dispatch: {}
 
 permissions:
@@ -32,12 +35,12 @@ jobs:
 
       - name: Build
         run: |
-          docker build -f frontend/Dockerfile \
+          docker build -f svelte/Dockerfile \
             --target "${TARGET}" \
             --build-arg CADDYFILE="${CADDYFILE}" \
             -t "${IMAGE}:${{ steps.t.outputs.MAIN }}" \
             -t "${IMAGE}:${{ steps.t.outputs.SHA }}" \
-            ./frontend
+            ./svelte
 
       - name: Push
         run: |
