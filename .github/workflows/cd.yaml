@@ -20,11 +20,13 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -euo pipefail
-            source /opt/folio/.env.prod
-            IMAGE="ghcr.io/${OWNER}/${REPO}-frontend:main"   # image construite par CI sur main
 
-            # Si le repo GHCR est privé, exporte GHCR_PAT dans l'env du VPS et décommente :
-            # echo "$GHCR_PAT" | docker login ghcr.io -u "${OWNER}" --password-stdin
+            source /opt/folio/.env.prod
+            IMAGE="ghcr.io/${OWNER}/${REPO}:main"
+
+            if [ -n "${GHCR_PAT:-}" ]; then
+              echo "$GHCR_PAT" | docker login ghcr.io -u "${OWNER}" --password-stdin
+            fi
 
             docker pull "$IMAGE" || true
             docker rm -f "${REPO}-prod" 2>/dev/null || true

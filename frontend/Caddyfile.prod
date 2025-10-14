@@ -1,12 +1,12 @@
 {
-	email contact@m4ba.dev
+	email ${EMAIL}
 }
 
-www.m4ba.dev {
-	redir https://m4ba.dev{uri}
+www.${DOMAIN} {
+	redir https://${DOMAIN}{uri}
 }
 
-m4ba.dev {
+${DOMAIN} {
 	encode zstd gzip
 
 	root * /usr/share/caddy
