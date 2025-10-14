@@ -1,0 +1,42 @@
+name: CD (deploy to VPS)
+on:
+  push:
+    branches: [ prod ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH deploy
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            source /opt/folio/.env.prod
+            IMAGE="ghcr.io/${OWNER}/${REPO}-frontend:main"   # image construite par CI sur main
+
+            # Si le repo GHCR est privé, exporte GHCR_PAT dans l'env du VPS et décommente :
+            # echo "$GHCR_PAT" | docker login ghcr.io -u "${OWNER}" --password-stdin
+
+            docker pull "$IMAGE" || true
+            docker rm -f "${REPO}-prod" 2>/dev/null || true
+
+            docker run -d --name "${REPO}-prod" \
+              --restart unless-stopped \
+              -p 80:80 -p 443:443 \
+              -e TZ="${TZ}" \
+              -e DOMAIN="${DOMAIN}" \
+              -e EMAIL="${EMAIL}" \
+              -v caddy_data:/data \
+              -v caddy_config:/config \
+              "$IMAGE"
+
+            docker image prune -f

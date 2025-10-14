@@ -1,4 +1,4 @@
-localhost, folio.local {
+localhost {
 	
 	tls internal
 	encode zstd gzip

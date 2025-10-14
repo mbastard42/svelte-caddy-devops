@@ -1,0 +1,45 @@
+name: CI (build & push)
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+  TARGET: prod
+  CADDYFILE: Caddyfile.prod
+
+jobs:
+  build_push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tags
+        id: t
+        run: |
+          echo "SHA=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+          echo "MAIN=main" >> $GITHUB_OUTPUT
+
+      - name: Build
+        run: |
+          docker build -f frontend/Dockerfile \
+            --target "${TARGET}" \
+            --build-arg CADDYFILE="${CADDYFILE}" \
+            -t "${IMAGE}:${{ steps.t.outputs.MAIN }}" \
+            -t "${IMAGE}:${{ steps.t.outputs.SHA }}" \
+            ./frontend
+
+      - name: Push
+        run: |
+          docker push "${IMAGE}:${{ steps.t.outputs.MAIN }}"
+          docker push "${IMAGE}:${{ steps.t.outputs.SHA }}"

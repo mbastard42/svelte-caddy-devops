@@ -16,9 +16,10 @@ FROM caddy:2-builder AS caddy
 RUN xcaddy build --with github.com/caddyserver/replace-response
 
 FROM gcr.io/distroless/base-debian12 AS prod
+ARG CADDYFILE=Caddyfile.prod
 COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
 COPY --from=build /app/build /usr/share/caddy
-COPY Caddyfile /etc/caddy/Caddyfile
+COPY ${CADDYFILE} /etc/caddy/Caddyfile
 USER 65532:65532
 EXPOSE 80 443
 VOLUME ["/data","/config"]
