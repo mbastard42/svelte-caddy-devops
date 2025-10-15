@@ -6,10 +6,11 @@ dev:
 		-p 5173:5173 \
 		-v $$PWD/svelte:/app \
 		-v /app/node_modules \
+  		-v /app/.svelte-kit \
 		svelte-dev 
 
 preview:
-	@set -a; . .env.prod; set +a; \
+	@set -a; . .env.example; set +a; \
 	docker build -f svelte/Dockerfile svelte \
 		--target prod \
 		--build-arg CADDYFILE=Caddyfile.preview \

@@ -1,15 +1,13 @@
-FROM node:22.20.0-alpine AS base
+FROM node:22.20.0-alpine AS dev
 WORKDIR /app
 COPY package.json ./
-RUN npm install
-
-FROM base AS dev
-COPY . .
 EXPOSE 5173
-ENTRYPOINT ["npm","run","dev"]
+ENTRYPOINT ["sh","-c","npm install && npm run dev"]
 
-FROM base AS build
+FROM node:22.20.0-alpine AS build
+WORKDIR /app
 COPY . .
+RUN npm install
 RUN npm run build
 
 FROM caddy:2-builder AS caddy
