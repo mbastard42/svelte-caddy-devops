@@ -171,8 +171,6 @@ CONTAINER ID   IMAGE                                 COMMAND                  ST
 abc1234        ghcr.io/username/repository:main     "/usr/bin/caddy run…"    Up 2 minutes   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp
 ```
 
-#### Access Your Site
-
 Now, simply open your browser and go to:
 ```
 https://yourdomain.example
