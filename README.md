@@ -17,6 +17,14 @@ A lightweight **Svelte SPA** template featuring an automated **CI/CD pipeline** 
     └── [...]                # Usual Svelte tree
 ```
 
+## Flowchart
+
+<div align="center">
+
+![Architecture Diagram](./diagram.svg)
+
+</div>
+
 ## Usage
 
 ### Step 1 - Initialize your repository
